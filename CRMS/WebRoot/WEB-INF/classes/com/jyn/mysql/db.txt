@@ -1,0 +1,80 @@
+#先完成用户登陆功能，分管理员登陆和普通用户登陆
+#管理登陆可以查看全部用户信息
+#普通用户登陆后，只能查看化学试剂信息
+#管理员授权普通用户查看其他用户信息的功能待定
+DROP DATABASE IF EXISTS CRMS;
+CREATE DATABASE IF NOT EXISTS CRMS;
+USE CRMS;
+DROP TABLE IF EXISTS CHEMUSERS;
+CREATE TABLE IF NOT EXISTS CHEMUSERS(
+USER_ID INT(2) PRIMARY KEY AUTO_INCREMENT,
+USER_NAME VARCHAR(20) NOT NULL UNIQUE,
+USER_PASSWORD VARCHAR(50) NOT NULL,
+USER_REALNAME VARCHAR(20) NOT NULL,
+USER_ROLE INT(1) DEFAULT 1,
+USER_STATUS INT(1) DEFAULT 0,
+USER_REGTIME TIMESTAMP DEFAULT NOW()
+)AUTO_INCREMENT=1;
+
+INSERT INTO CHEMUSERS(USER_ID,USER_NAME,USER_PASSWORD,USER_REALNAME,USER_ROLE)VALUES(1,'ADMIN','000000','管理员',0);
+
+INSERT INTO CHEMUSERS(USER_ID,USER_NAME,USER_PASSWORD,USER_REALNAME,USER_ROLE)VALUES(2,'linjunjie','222222','林俊杰',1);
+
+INSERT INTO CHEMUSERS(USER_ID,USER_NAME,USER_PASSWORD,USER_REALNAME,USER_ROLE)VALUES(3,'sudalv','222222','苏打绿',1);
+
+INSERT INTO CHEMUSERS(USER_ID,USER_NAME,USER_PASSWORD,USER_REALNAME,USER_ROLE)VALUES(4,'zhangshaohan','333333','张韶涵',1);
+
+INSERT INTO CHEMUSERS(USER_ID,USER_NAME,USER_PASSWORD,USER_REALNAME,USER_ROLE)VALUES(5,'linsuhan','444444','林苏涵',1);
+
+select * from chemusers;
+select * from chemusers where user_name='linjunjie';
+
+#在当前数据库下创建表:chemType,chemDetails
+create table chemType
+(
+	t_id int(2) primary key auto_increment,
+	t_name varchar(30) not null,
+	t_desc varchar(50) 
+);
+
+create table chemDetails(
+d_id int(8) primary key auto_increment,
+d_name varchar(30) not null,
+d_addr varchar(50) not null,
+d_desc varchar(50),
+t_id int(2) references chemType(t_id)
+)auto_increment=10000;
+
+#添加数据
+insert into chemType(t_name,t_desc)values('inorganic','无机化学试剂');
+insert into chemType(t_name,t_desc)values('organic','有机化学试剂');
+insert into chemType(t_name,t_desc)values('other','其它');
+insert into chemDetails(d_name,d_addr,d_desc,t_id)
+values('碳酸氢钠','上海阿拉丁','国产',1);
+insert into chemDetails(d_name,d_addr,d_desc,t_id)
+values('碳酸氢钠','上海安耐吉','进口',1);
+insert into chemDetails(d_name,d_addr,d_desc,t_id)
+values('碳酸氢钠','上海国药','国产',1);
+insert into chemDetails(d_name,d_addr,d_desc,t_id)
+values('硫代硫酸钠','上海阿拉丁','国产',1);
+insert into chemDetails(d_name,d_addr,d_desc,t_id)
+values('硫代硫酸钠','上海安耐吉','进口',1);
+insert into chemDetails(d_name,d_addr,d_desc,t_id)
+values('硫代硫酸钠','上海国药','国产',1);
+insert into chemDetails(d_name,d_addr,d_desc,t_id)
+values('乙醇','上海阿拉丁','国产',2);
+insert into chemDetails(d_name,d_addr,d_desc,t_id)
+values('乙醇','上海安耐吉','国产',2);
+insert into chemDetails(d_name,d_addr,d_desc,t_id)
+values('乙醇','上海国药','国产',2);
+insert into chemDetails(d_name,d_addr,d_desc,t_id)
+values('乙酸乙酯','上海阿拉丁','国产',2);
+insert into chemDetails(d_name,d_addr,d_desc,t_id)
+values('乙酸乙酯','上海安耐吉','国产',2);
+insert into chemDetails(d_name,d_addr,d_desc,t_id)
+values('乙酸乙酯','上海国药','国产',2);
+insert into chemDetails(d_name,d_addr,d_desc,t_id)
+values('其它','其它','其它',3);
+
+select * from chemtype;
+select * from chemdetails;

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <bean id="baseDAO" class="com.jyn.dao.BaseDAO"/>
+
+    <bean id="typeDetailsVODAO" 
+    class="com.jyn.dao.impl.TypeDetailsVODAOImpl">
+       <property name="baseDAO" ref="baseDAO"></property>
+    </bean>
+    <bean id="typeDAO" class="com.jyn.dao.impl.TypeDAOImpl">
+       <property name="baseDAO" ref="baseDAO"></property>
+    </bean>
+    <bean id="detailsDAO" class="com.jyn.dao.impl.DetailsDAOImpl">
+       <property name="baseDAO" ref="baseDAO"></property>
+    </bean>
+    
+    
+    <bean id="typeDetailsVOService" 
+    class="com.jyn.service.impl.TypeDetailsVOServiceImpl">
+       <property name="typeDetailsVODAO" ref="typeDetailsVODAO" ></property>
+    </bean>
+     <bean id="typeService" 
+    class="com.jyn.service.impl.TypeServiceImpl">
+       <property name="typeDAO" ref="typeDAO" ></property>
+    </bean>
+     <bean id="detailsService" 
+    class="com.jyn.service.impl.DetailsServiceImpl">
+       <property name="detailsDAO" ref="detailsDAO" ></property>
+    </bean>
+    <bean  class="com.jyn.controller.TypeDetailsVOController">
+    <property name="typeService" ref="typeService"></property>
+       <property name="typeDetailsVOService" ref="typeDetailsVOService"></property>   
+    </bean> 
+    <bean  class="com.jyn.controller.TypeController"/>  
+    <bean  class="com.jyn.controller.DetailsController">
+      <property name="detailsService" ref="detailsService"></property>
+    </bean>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+       <property name="prefix" value="/jsp/"></property>
+       <property name="suffix" value=".jsp"></property>
+    </bean>
+</beans>
